@@ -8,14 +8,14 @@
 
   roles:
     - common
-    - mailserver
-    - webmail
-    - blog
-    - ircbouncer
-    - xmpp
-    - owncloud
-    - vpn
-    - tarsnap
+    # - mailserver
+    # - webmail
+    # - blog
+    # - ircbouncer
+    # - xmpp
+    - nextcloud
+    # - vpn
+    # - tarsnap
     - news
     - git
     - readlater

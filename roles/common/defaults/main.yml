@@ -4,6 +4,10 @@ main_user_shell: "/bin/bash"
 friendly_networks:
   - ""
 
+# apache
+apache_user: "www-data"
+apache_group: "www-data"
+
 # encfs
 secret_root: '{{ inventory_dir | realpath }}'
 secret_name: 'secret'

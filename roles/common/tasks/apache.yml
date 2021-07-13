@@ -1,17 +1,33 @@
 ---
 # Configures the Apache HTTP server with sane defaults.
 
+- name: Make domain root
+  file:
+    path: "/var/www/tridentata.com"
+    state: "0755"
+    owner: "{{ apache_user }}"
+    group: "{{ apache_group }}"
+    recurse: "yes"
+    state: "directory"
+
+- name: Make default index.html
+  template:
+    src: "var_www_domain_index.html.j2"
+    dest: "/var/www/{{ domain }}/index.html"
+    owner: "{{ apache_user }}"
+    group: "{{ apache_group }}"
+
+- name: Make virtual host
+  template:
+    src: "etc_apache2_sites-available_domain.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ domain }}.conf"
+    owner: "{{ apache_user }}"
+    group: "{{ apache_group }}"
+
 - name: Disable default Apache site
-  command: a2dissite 000-default removes=/etc/apache2/sites-enabled/000-default
+  command: a2dissite 000-default removes=/etc/apache2/sites-enabled/000-default.conf
   notify: restart apache
 
-- name: Enable Apache headers module
-  command: a2enmod headers creates=/etc/apache2/mods-enabled/headers.load
-  notify: restart apache
-
-- name: Create ServerName configuration file for Apache
-  template: src=fqdn.j2 dest=/etc/apache2/conf-available/fqdn.conf
-
-- name: Set ServerName for Apache
-  command: a2enconf fqdn creates=/etc/apache2/conf-enabled/fqdn.conf
+- name: Enable our Apache site
+  command: "a2ensite {{ domain }}.conf"
   notify: restart apache
