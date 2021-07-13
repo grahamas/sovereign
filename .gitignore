@@ -5,3 +5,8 @@
 *.pyc
 *.retry
 secret
+group_vars
+group_vars/sovereign
+hosts
+
+nextcloud
